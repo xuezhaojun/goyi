@@ -6,4 +6,4 @@ Go 译 Go 易
 ## 译
 
 > Error
-  * [Errors are values](https://github.com/xuezhaojun/goyi/blob/master/errors%20are%20values.md)
+  * [Errors are values -- Rob Pike](https://github.com/xuezhaojun/goyi/blob/master/errors%20are%20values.md)
