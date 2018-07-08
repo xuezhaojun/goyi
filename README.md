@@ -16,8 +16,8 @@ Go 译 Go 易
 译：
 
 * [Errors are values - Rob Pike](https://github.com/xuezhaojun/goyi/blob/master/errors%20are%20values.md)
-* [Errors handling and go - Andrew Gerrand]()
-* [Effective error handing in go - Morsing]()
+* [Errors handling and go - Andrew Gerrand](https://github.com/xuezhaojun/goyi/blob/master/error%20handling%20and%20go.md)
+* [Effective error handing in go - Morsing](https://github.com/xuezhaojun/goyi/blob/master/effective%20error%20handling%20in%20go.md)
 
 ## Style
 
@@ -25,7 +25,7 @@ Go 译 Go 易
 
 理：
 
-* [go code review]()
+* [go code review](https://github.com/xuezhaojun/goyi/blob/master/go%20code%20review.md)
 
 ## Test
 
