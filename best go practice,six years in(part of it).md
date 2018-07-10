@@ -244,3 +244,4 @@ func newFoo(..., cfg fooConfig) *foo {
 * 日志等级没必要分那么细 ---- 通常 info 和 debug 就够了
 * 使用结构化的日 ---- 一点小私心，我推荐 [go-kit/log](https://github.com/go-kit/kit/tree/master/log) 
 * Logger 是 受依赖的！
+
