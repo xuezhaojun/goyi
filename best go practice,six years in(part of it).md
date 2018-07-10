@@ -313,6 +313,49 @@ TDD/BDD 包带来了新的，不熟悉的 DSLs 和 控制单元，也提供了�
 
 > 注意：永远只测要测的
 
-## 8. 依赖项管理
+## 8. Dependency management
 
-这曾是热门话题，2014年刚开始，我那是能给的具体建议只有vendor。这个建议目前仍旧适用：verdoring 仍然是二进制文件的管理方案。go1.6之后，govendor成为了已成为默认的官方工具，所以我也建议使用它。
+这曾是热门话题，2014年刚开始，我那是能给的具体建议只有vendor。这个建议目前仍旧适用：verdoring 仍然是二进制文件的管理方案。go1.5之后，govendor成为了已成为默认的官方工具，所以我也建议使用它。
+
+库的一个大问题就是，在go中，依赖管理是项目作者应该关心的事情。包含依赖的库非常难用，虽然不是说完全不能使用，go1.5之后，也是有一些特殊情况或者理想情况，有这么使用的。但是长话短说，就是：一个库，永远不应该包含依赖。
+
+> 注意： 库不应该包含依赖
+
+或者你能保证引用的包没有任何东西，方法，结构体，函数，任何东西，暴露出来。
+
+## 9. Build and deploy
+
+> 注意： go install 比 go build 要好
+
+和build命令相比，install 命令可以：
+
+* 将编译后的文件放到对应bin目录下
+* 将可执行文件依赖的各种package编译后，放在和src同等级的pkg目录下，使得编译更快
+
+
+
+## 总结
+
+**15条注意事项，可以在code review的时候用来过代码**
+
+1. Put $GOPATH/bin in your $PATH, so installed binaries are easily accessible.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-1)
+2. Put library code under a pkg/ subdirectory. Put binaries under a cmd/ subdirectory.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-2)
+3. Always use fully-qualified import paths. Never use relative imports.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-3)
+4. Defer to Andrew Gerrand’s [naming conventions](https://talks.golang.org/2014/names.slide).  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-4)
+5. Only func main has the right to decide which flags are available to the user.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-5)
+6. Use struct literal initialization to avoid invalid intermediate state.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-6)
+7. Avoid nil checks via default no-op implementations.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-7)
+8. Make the zero value useful, especially in config objects.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-8)
+9. **Make dependencies explicit!**  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-9)
+10. Loggers are dependencies, just like references to other components, database handles, commandline flags, etc.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-10)
+11. Use many small interfaces to model dependencies.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-11)
+12. Tests only need to test the thing being tested.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-12)
+13. Use a top tool to vendor dependencies for your binary.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-13)
+14. Libraries should never vendor their dependencies.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-14)
+15. Prefer go install to go build.  [link](https://peter.bourgon.org/go-best-practices-2016/#top-tip-15)
+
+
+
+感想：
+
+本文的理解程度大概为60%左右，感觉内容是非常实用和中肯的。不过由于很多东西目前都没有用过，比如go-kit，普罗米修斯等等，所以后面的内容感觉领悟不是很深，有些一知半解的感觉。
