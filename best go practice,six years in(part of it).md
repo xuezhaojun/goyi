@@ -245,3 +245,74 @@ func newFoo(..., cfg fooConfig) *foo {
 * 使用结构化的日 ---- 一点小私心，我推荐 [go-kit/log](https://github.com/go-kit/kit/tree/master/log) 
 * Logger 是 受依赖的！
 
+打印日志开销巨大，但是监控则消耗低廉。你应该监控你代码的每一个重要组件。如果要监控的是一个资源，比如一个队列，就根据[Brendan Gregg’s USE method](http://www.brendangregg.com/usemethod.html) ：利用率，饱和度，错误统计，来监控它。如果是一个终端，则根据[Tom Wilkie’s RED method](https://twitter.com/LindsayofSF/status/692191001692237825) ：请求数，错误计数，持续时间，来监控它。
+
+如果你能选的话，我推荐你用 [Prometheus](https://prometheus.io/) 作为监控系统。当然，metrics 也是受依赖的！
+
+让我们使用 loggers 和 metrics 来更直接的表示全局状态。以下是一些go中的真相：
+
+* log.Print 使用的是全局的，固定的 log.Logger
+* http.Get 使用的是全局的，固定的 http.Client
+* http.Server 默认情况下，使用的是全局的，固定的 log.Logger
+* database/sql 使用的是全局的，固定的驱动库
+* init 方法只对全局状态有影响
+
+一点方便，无数烦恼，说的就是以上的情况。就比如，我们要怎么通过一个固定的，全局logger，来测试一个组件的日志输出呢？我们必然要重定向他的输出，但是那样的话，我们又要怎么并行测试呢？那不然不测了？不测又显得不让人满意。另一种情况，如果我们有两个独立的组件，同时以不同的需要，进行着 HTTP 请求，我们要怎么管理呢？还使用默认的全局 http.Client 的话，真的很难。比如下列：
+
+```go
+func foo() {
+    resp, err := http.Get("http://zombo.com")
+    // ...
+}
+```
+
+http.Get 调用了一个http包的一个全局方法。这个方法有着一些隐藏的全局依赖。我们可以简单的清楚这些依赖：
+
+```go
+func foo(client *http.Client) {
+    resp, err := client.Get("http://zombo.com")
+    // ...
+}
+```
+
+改成传入一个http.Client作为参数。但是这是一个具体的类型，也就是说，如果我们想测试这个方法，我们必须要提供一个具体的http.Client，那我们就得建立一个真的http链接才行。这样肯定不行。
+
+而通过传递一个可以执行http请求的接口，我们可以让这个方法更好！
+
+```go
+type Doer interface {
+    Do(*http.Request) (*http.Response, error)
+}
+
+func foo(d Doer) {
+    req, _ := http.NewRequest("GET", "http://zombo.com", nil)
+    resp, err := d.Do(req)
+    // ...
+}
+```
+
+http.Client 已经实现了 Doer 的接口，但是现在，我们也可以在测试中，传递一个模拟的Doer实现进去。一个foo方法的单元测试，只需要测试foo的行为就可以了，测试过程可以假定 http.Client 可以按理想情况运行。
+
+说起测试...
+
+## 7. Testing
+
+2014年的时候，我回顾了我们使用多种测试框架以及辅助库的经历，发现其中没有任何一种，能大量的使用，这种表驱动，封装测试，的标准库推荐做法。宽泛的来说，我认为还是最好的建议方法。go语言的测试中，最值得铭记的事情就是，测试只是编程。它和其他的编程并没有不同，所以封装测试还是很合适的。
+
+TDD/BDD 包带来了新的，不熟悉的 DSLs 和 控制单元，也提供了你和未来的维护者的认知负担。我个人是没见过有代码库使用TDD/BDD的方法后，收益能比成本高的。就像全局状态一样，我觉得这些包用起来得不偿失，而且这些包通常是其他语言或生态系统中，用于控制盲目编程的产物。但是既然用go，就要go彻底：我们已经有了一门可以编写简单，实用测试的语言，就是go本身！
+
+话虽如此，但是我知道自己说的确实有失偏驳。正如我对于 GOPATH 的观点一样，我没那么坚持了，也尊重那些使用 testing DSL 和框架的组织。 如果你想使用什么框架，那就用吧，用前想好就行。
+
+另一个特别值得注意就是 测试的设计，Mitchell Hashimoto 最近就这个议题发表了不错的讲话，([SpeakerDeck](https://speakerdeck.com/mitchellh/advanced-testing-with-go),[YouTube](https://www.youtube.com/watch?v=yszygk1cpEc)) 我觉得很值得一看。
+
+一般来说，编写go代码最好的方式，就是以一般函数式，显示枚举依赖项，同时尽可能提供小的，紧凑的接口。这不仅是一个好工程师的基本原则，也会让你的代码更加容易测试。
+
+> 注意：使用大量的小接口来塑造依赖。
+
+正如上面那个http.Client的例子，单元测试只应该测试要测试的东西，其他的都不管。如果你在测试一个函数，没有必要同时测试http的传输，或者写入磁盘的路径。应该提供一个输入输出的模拟实现，然后专注于业务逻辑。
+
+> 注意：永远只测要测的
+
+## 8. 依赖项管理
+
+这曾是热门话题，2014年刚开始，我那是能给的具体建议只有vendor。这个建议目前仍旧适用：verdoring 仍然是二进制文件的管理方案。go1.6之后，govendor成为了已成为默认的官方工具，所以我也建议使用它。
