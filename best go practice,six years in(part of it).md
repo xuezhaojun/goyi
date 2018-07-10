@@ -236,3 +236,11 @@ func newFoo(..., cfg fooConfig) *foo {
 }
 ```
 
+## 6. Logging and instrumentation
+
+谈及这个问题，我真的有话想说: 我有大量的生成环境下的日志经验，这样很大程度的提高了我对于问题的尊重。日志的代价是高昂的，比你想的要高的多，而且很快会成为你系统的瓶颈。我在  [另一篇文章](https://peter.bourgon.org/blog/2016/02/07/logging-v-instrumentation.html) 中写的更加详细，但这里重新声明：
+
+* 只打印具有操作价值的信息，因为这些信息是要被人或者机器阅读的
+* 日志等级没必要分那么细 ---- 通常 info 和 debug 就够了
+* 使用结构化的日 ---- 一点小私心，我推荐 [go-kit/log](https://github.com/go-kit/kit/tree/master/log) 
+* Logger 是 受依赖的！
