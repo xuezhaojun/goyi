@@ -136,7 +136,7 @@ type UserService struct {
 
  此时，我们的依赖可以完全通过我们共有的领域语言来交流了。这也意味着我们可以在PostgreSQL替换为MySQL或者将Stripe替换为其他第三方的同时，不影响其他依赖。（这里的myapp.TransactionService是一个interface,和myapp.UserService是一样的，只定义领域语言，不涉及具体实现）
 
-#### 不关针对第三方的包
+#### 不光针对第三方的包
 
 可能听起来相当怪，但是我对于标准库的依赖，也会用同样的方法处理。比如 net/http 这个包就是一个依赖。我们可以通过添加一个 http 的子包来独立它。
 
@@ -164,3 +164,138 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 ### #3. User a shared mock subpackage
 
+我们的依赖和我们领域接口中的依赖是解耦的，所以我们可以这些连接点来注入一些mock实现。
+
+虽然有不少可以用来生成mocks的库，比如 [GoMock](https://github.com/golang/mock) ，但是我个人还是更喜欢自己写。我发现很多mocking工具，都过于复杂了。
+
+我使用的mocks非常简单，比如每一个UserService的mock是这个样子的：
+
+```go
+package mock
+
+import "github.com/benbjohnson/myapp"
+
+// UserService represents a mock implementation of myapp.UserService.
+type UserService struct {
+        UserFn      func(id int) (*myapp.User, error)
+        UserInvoked bool
+
+        UsersFn     func() ([]*myapp.User, error)
+        UsersInvoked bool
+
+        // additional function implementations...
+}
+
+// User invokes the mock implementation and marks the function as invoked.
+func (s *UserService) User(id int) (*myapp.User, error) {
+        s.UserInvoked = true
+        return s.UserFn(id)
+}
+```
+
+这个mock可以让我向任何使用到myapp.UserService的东西里注入方法，来验证参数，返回预期值，或者注入失败的例子。
+
+就比如我们想测试上面建的 http.Handler:
+
+```go
+package http_test
+
+import (
+	"testing"
+	"net/http"
+	"net/http/httptest"
+
+	"github.com/benbjohnson/myapp/mock"
+)
+
+func TestHandler(t *testing.T) {
+	// Inject our mock into our handler.
+	var us mock.UserService
+	var h Handler
+	h.UserService = &us
+
+	// Mock our User() call.
+	us.UserFn = func(id int) (*myapp.User, error) {
+		if id != 100 {
+			t.Fatalf("unexpected id: %d", id)
+		}
+		return &myapp.User{ID: 100, Name: "susy"}, nil
+	}
+
+	// Invoke the handler.
+	w := httptest.NewRecorder()
+	r, _ := http.NewRequest("GET", "/users/100", nil)
+	h.ServeHTTP(w, r)
+	
+	// Validate mock.
+	if !us.UserInvoked {
+		t.Fatal("expected User() to be invoked")
+	}
+}
+```
+
+我们的mock让我们可以完全将单元测试独立出来，仅处理与http协议相关的东西，不涉及数据库等。
+
+### #4. Main package ties together dependencies
+
+每一个依赖都独立于自己的包中，你可以会想要怎么整合他们。这就是main包应该做的事情了。
+
+#### Main package layout
+
+一个应用可能会产生多个二进制，所以我们依照go的公约，将main包放在 cmd/ 目录下。比如，我们的项目可能有一个 myapp 的服务二进制，但是同时也有一个myappctl的客户端二进制用来从终端管理服务。那么我们的packages就应该是这样的：
+
+```
+myapp/
+    cmd/
+        myapp/
+            main.go
+        myappctl/
+            main.go
+```
+
+#### Injecting dependencies at compile time
+
+“依赖注入” 这个词，名声确实不好，它让人联想到繁琐的 Spring XML 文件。但是，所有这个词其实只是要我们，将所有的依赖，**传递**到我们的对象中，而不是通过 **构造对象**的方式。
+
+main 包就是用来选哪一些依赖要注入哪一些对象中。因为main包只是简单的将每个部分连接起来，其本身应该是很小，很轻的。
+
+```go
+package main
+
+import (
+	"log"
+	"os"
+	
+	"github.com/benbjohnson/myapp"
+	"github.com/benbjohnson/myapp/postgres"
+	"github.com/benbjohnson/myapp/http"
+)
+
+func main() {
+	// Connect to database.
+	db, err := postgres.Open(os.Getenv("DB"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	// Create services.
+	us := &postgres.UserService{DB: db}
+
+	// Attach to HTTP handler.
+	var h http.Handler
+	h.UserService = us
+	
+	// start http server...
+}
+```
+
+要注意，你的main包同时也是一个适配器。用于连接你的终端和你的领域。
+
+## Conclusion
+
+应用设计是一个难题。如果没有一些原则来引导你，那么面多这么多需要制定的设计决策，往往会变的很糟糕。我们知道了当前几种go application使用的设计，也看到了他们的缺陷（未翻译的第一部分）
+
+我相信基于**依赖**的设计，能让代码更加简答，更易阅读。首先设计我们的领域语言，然后分隔我们的依赖。然后通过mocks分隔测试。最终，我们用main包将一切联系起来。
+
+在你下一次做设计的时候，考虑一下这些原则。如果你有任何问题，或者想要讨论设计，可以通过 Twitter 的[@benbjohnson](https://twitter.com/benbjohnson)  联系到我（原作者），也可以在 [Gopher slack](https://gophersinvite.herokuapp.com/) 上找到我，我的用户名是 *benbjohnson* 。
