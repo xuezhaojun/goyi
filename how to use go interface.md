@@ -183,5 +183,5 @@ type Fooer interface {
 ##### 昭君的总结：
 
 * 根据一点用途来定义接口，而不是更具结构来定义接口 declare-at-point-of-use
-* 传入接口，传出结构
+* 传入接口，传出结构（宽入紧出）
 
