@@ -7,7 +7,7 @@ Go 译 Go 易
 
 创：原创内容
 
-[Go箴言 - Rob Pike]()压楼
+[Go箴言 - Rob Pike](https://github.com/xuezhaojun/goyi/blob/master/Go%20Proverbs.md)压楼
 
 ## Error
 
@@ -42,4 +42,11 @@ Go 译 Go 易
 ## Design
 
 > 设计是智慧
+
+译：
+
+* [玩go六年，最佳实践(部分)](https://github.com/xuezhaojun/goyi/blob/master/best%20go%20practice%2Csix%20years%20in(part%20of%20it).md)
+* [Standard Package Layout 标准的包结构（部分选文）](https://github.com/xuezhaojun/goyi/blob/master/Standard%20Package%20Layout.md)
+* [What “accept interfaces, return structs” means in Go](https://github.com/xuezhaojun/goyi/blob/master/What%20%E2%80%9Caccept%20interfaces%2C%20return%20structs%E2%80%9D%20means%20in%20Go.md)
+* [How to use go interface](https://github.com/xuezhaojun/goyi/blob/master/how%20to%20use%20go%20interface.md)
 
