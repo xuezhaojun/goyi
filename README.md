@@ -37,7 +37,7 @@ Go 译 Go 易
 
 > go 是天生的web编程语言
 
-[Handle http request errors in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/Handle%20Http%20request%20errors%20in%20go.md)
+* [Handle http request errors in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/Handle%20Http%20request%20errors%20in%20go.md)
 
 ## Design
 
