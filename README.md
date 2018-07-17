@@ -31,7 +31,7 @@ Go 译 Go 易
 
 > 健全的测试是重构的基础
 
-
+* [go testing techinique: testing json http request](https://github.com/xuezhaojun/goyi/blob/master/articles/go%20testing%20techinique%20testing%20json%20http%20request.md)
 
 ## Web
 
