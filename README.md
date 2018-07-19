@@ -1,5 +1,5 @@
 # goyi
-Go 译 Go 易 - 10 篇
+Go 译 Go 易 - 11 篇
 
 译：翻译Go的好文章，欢迎对任何觉得不准确或者有问题的地方批评，帮助我理解改进
 
@@ -32,6 +32,7 @@ Go 译 Go 易 - 10 篇
 > 健全的测试是重构的基础
 
 * [go testing techinique: testing json http request](https://github.com/xuezhaojun/goyi/blob/master/articles/go%20testing%20techinique%20testing%20json%20http%20request.md)
+* [5 advanced testing techiques in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/5%20advanced%20testing%20techniques%20in%20Go.md)
 
 ## Web
 
