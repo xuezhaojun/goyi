@@ -36,7 +36,7 @@ Go 译 Go 易 - 11 篇
 
 ## Web
 
-> go 是天生的web编程语言
+> 原生的web
 
 * [Handle http request errors in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/Handle%20Http%20request%20errors%20in%20go.md)
 
@@ -51,3 +51,8 @@ Go 译 Go 易 - 11 篇
 * [What “accept interfaces, return structs” means in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/What%20%E2%80%9Caccept%20interfaces%2C%20return%20structs%E2%80%9D%20means%20in%20Go.md)
 * [How to use go interface](https://github.com/xuezhaojun/goyi/blob/master/articles/how%20to%20use%20go%20interface.md)
 
+## Concurrency
+
+> 天生的并发
+
+* [Cancelling Multiple Goroutines - 关闭多个goroutine（节选）](https://github.com/xuezhaojun/goyi/blob/master/articles/Cancelling%20Multiple%20Goroutines.md)
