@@ -50,6 +50,7 @@ Go 译 Go 易 - 11 篇
 * [Standard Package Layout 标准的包结构（部分选文）](https://github.com/xuezhaojun/goyi/blob/master/articles/Standard%20Package%20Layout.md)
 * [What “accept interfaces, return structs” means in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/What%20%E2%80%9Caccept%20interfaces%2C%20return%20structs%E2%80%9D%20means%20in%20Go.md)
 * [How to use go interface](https://github.com/xuezhaojun/goyi/blob/master/articles/how%20to%20use%20go%20interface.md)
+* [Loose Coupling in Go lang](https://github.com/xuezhaojun/goyi/blob/master/articles/Loose%20Coupling%20in%20Go%20lang.md)
 
 ## Concurrency
 
