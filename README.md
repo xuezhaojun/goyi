@@ -51,6 +51,8 @@ Go 译 Go 易 - 11 篇
 * [What “accept interfaces, return structs” means in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/What%20%E2%80%9Caccept%20interfaces%2C%20return%20structs%E2%80%9D%20means%20in%20Go.md)
 * [How to use go interface](https://github.com/xuezhaojun/goyi/blob/master/articles/how%20to%20use%20go%20interface.md)
 * [Loose Coupling in Go lang](https://github.com/xuezhaojun/goyi/blob/master/articles/Loose%20Coupling%20in%20Go%20lang.md)
+* [Self-referential functions and the design of options](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Self-referential%20functions%20and%20the%20design%20of%20options.md)
+* [How to ship production-grade Go](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/How%20to%20ship%20production-grade%20Go.md)
 
 ## Concurrency
 
