@@ -39,6 +39,7 @@ Go 译 Go 易 - 11 篇
 > 原生的web
 
 * [Handle http request errors in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/Handle%20Http%20request%20errors%20in%20go.md)
+* [How I write Go HTTP services after seven years](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/How%20I%20write%20Go%20HTTP%20services%20after%20seven%20years.md)
 
 ## Design
 
@@ -59,3 +60,4 @@ Go 译 Go 易 - 11 篇
 > 天生的并发
 
 * [Cancelling Multiple Goroutines - 关闭多个goroutine（节选）](https://github.com/xuezhaojun/goyi/blob/master/articles/Cancelling%20Multiple%20Goroutines.md)
+* [How to Block Forever in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/How%20to%20Block%20Forever%20in%20Go.md)
