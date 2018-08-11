@@ -1,5 +1,5 @@
 # goyi
-Go 译 Go 易 - 11 篇
+Go 译 Go 易
 
 译：翻译Go的好文章，欢迎对任何觉得不准确或者有问题的地方批评，帮助我理解改进
 
@@ -40,6 +40,7 @@ Go 译 Go 易 - 11 篇
 
 * [Handle http request errors in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/Handle%20Http%20request%20errors%20in%20go.md)
 * [How I write Go HTTP services after seven years](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/How%20I%20write%20Go%20HTTP%20services%20after%20seven%20years.md)
+* [Don’t use Go’s default HTTP client (in production)](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Don%E2%80%99t%20use%20Go%E2%80%99s%20default%20HTTP%20client%20(in%20production).md)
 
 ## Design
 
@@ -54,6 +55,8 @@ Go 译 Go 易 - 11 篇
 * [Loose Coupling in Go lang](https://github.com/xuezhaojun/goyi/blob/master/articles/Loose%20Coupling%20in%20Go%20lang.md)
 * [Self-referential functions and the design of options](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Self-referential%20functions%20and%20the%20design%20of%20options.md)
 * [How to ship production-grade Go](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/How%20to%20ship%20production-grade%20Go.md)
+* [Failure is your Domain](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Failure%20is%20your%20Domain.md)
+* [Functional options for friendly APIs](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Functionnal%20options%20for%20friendly%20APIs.md)
 
 ## Concurrency
 
@@ -61,3 +64,10 @@ Go 译 Go 易 - 11 篇
 
 * [Cancelling Multiple Goroutines - 关闭多个goroutine（节选）](https://github.com/xuezhaojun/goyi/blob/master/articles/Cancelling%20Multiple%20Goroutines.md)
 * [How to Block Forever in Go](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/How%20to%20Block%20Forever%20in%20Go.md)
+* [Using contexts to avoid leaking goroutines](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Using%20contexts%20to%20avoid%20leaking%20goroutines.md)
+
+## Tools
+
+> 工具撬动地球
+
+* [Your pprof is showing](https://github.com/xuezhaojun/goyi/blob/master/articles/18-8/Your%20pprof%20is%20showing.md)
